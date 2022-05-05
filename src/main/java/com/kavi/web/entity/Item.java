@@ -11,7 +11,7 @@ public class Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	private String id;
+	private Integer id;
 	private String title;
 	private String typeId;
 	private LocalDateTime createdAt;
@@ -27,11 +27,11 @@ public class Item implements Serializable {
 		this.createdAt = createdAt;
 	}
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
