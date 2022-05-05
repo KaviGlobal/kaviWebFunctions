@@ -9,3 +9,5 @@ Maven functions for development:-
 	mvn azure-functions:run -DenableDebug
 3) Deploy functions to cloud
 	mvn azure-functions:deploy
+
+Note : Please avoid commiting any unwanted settings file . We can keep adding the unwanted file names in the git ignore file , if needed.
