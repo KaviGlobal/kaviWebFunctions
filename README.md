@@ -1,4 +1,5 @@
 # kaviWebFunctions
+Spring boot cloud project for azure functions
 
 Maven functions for development:-
 
