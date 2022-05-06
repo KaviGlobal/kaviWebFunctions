@@ -17,7 +17,7 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 public class CreateItemFunction extends FunctionInvoker<ItemDto, ResponseStatus> {
 
-	@FunctionName("createItem")
+	@FunctionName("saveItem")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {
 			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<ItemDto>> request,
 			final ExecutionContext context) {

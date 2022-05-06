@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.kavi.web.entity.Item;
 
-public interface ItemRepository extends CrudRepository<Item, String> {
+public interface ItemRepository extends CrudRepository<Item, Integer> {
 
 }
