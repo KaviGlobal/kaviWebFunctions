@@ -39,7 +39,7 @@ public class SaveItem implements Function<ItemDto, ResponseStatus> {
 			result = this.createItem(data);
 		}
 
-		return new ResponseStatus(result.toString());
+		return new ResponseStatus(result.getId(), "Success");
 	}
 
 	private Item createItem(ItemDto itemDto) {

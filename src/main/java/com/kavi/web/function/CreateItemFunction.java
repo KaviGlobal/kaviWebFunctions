@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
 
+import com.kavi.web.entity.Item;
 import com.kavi.web.model.ItemDto;
 import com.kavi.web.model.ResponseStatus;
 import com.microsoft.azure.functions.ExecutionContext;
@@ -15,7 +16,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
-public class CreateItemFunction extends FunctionInvoker<ItemDto, ResponseStatus> {
+public class CreateItemFunction extends FunctionInvoker<ItemDto, Item> {
 
 	@FunctionName("saveItem")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {

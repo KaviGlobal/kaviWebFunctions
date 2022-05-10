@@ -2,21 +2,30 @@ package com.kavi.web.model;
 
 public class ResponseStatus {
 
-	private String result;
-	
-	public ResponseStatus(String result) {
-		this.result = result;
+	private Object data;
+
+	private String status;
+
+	public ResponseStatus(Object data, String status) {
+		super();
+		this.data = data;
+		this.status = status;
 	}
 
-	public String getResult() {
-		return result;
+	public Object getData() {
+		return data;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setData(Object data) {
+		this.data = data;
 	}
-	
-	
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }
