@@ -30,14 +30,10 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<byte[]>> request,
 			final ExecutionContext context) throws IOException {
 
-		// context.getLogger().info("Request body is: " +
-		// request.getBody().orElse(null));
-		// Flux<ByteBuffer> body = request.getBody();
 		context.getLogger().info("Java HTTP file upload started with headers " + request.getHeaders());
-		// byte[] bs = request.getBody().get();
 		Map<String, String> queryParam = request.getQueryParameters();
-		String containerID = queryParam.get("id");
-		String containerName = "kaviweb-" + containerID;
+		String id = queryParam.get("id");
+		String containerName = "item";
 
 		// Code will be refactored later
 		String connectionString = "DefaultEndpointsProtocol=https;"
@@ -51,16 +47,21 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 
 			BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString)
 					.buildClient();
-			BlobContainerClient containerClient = blobServiceClient.createBlobContainer(containerName);
-
-			BlobClient blob = containerClient.getBlobClient("full.md");
+			BlobContainerClient containerClient = null;
+			
+			containerClient = blobServiceClient.getBlobContainerClient(containerName);
+			if(!containerClient.exists())
+					blobServiceClient.createBlobContainer(containerName);
+			
+			// create file inside the folder having the ID name
+			BlobClient blob = containerClient.getBlobClient( id+"/full.md");
 			blob.upload(inputStream, bodyLength, true);
 		} catch (Exception ex) {
 			return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body(ex.getMessage()).build();
 		}
 
 		return request.createResponseBuilder(HttpStatus.OK)
-				.body("File uploaded successfully in container " + containerName).build();
+				.body("File uploaded successfully " + containerName).build();
 
 	}
 
