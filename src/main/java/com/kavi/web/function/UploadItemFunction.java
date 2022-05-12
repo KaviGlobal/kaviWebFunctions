@@ -3,6 +3,7 @@ package com.kavi.web.function;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
@@ -34,6 +35,9 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 		// Flux<ByteBuffer> body = request.getBody();
 		context.getLogger().info("Java HTTP file upload started with headers " + request.getHeaders());
 		// byte[] bs = request.getBody().get();
+		Map<String, String> queryParam = request.getQueryParameters();
+		String containerID = queryParam.get("id");
+		String containerName = "kaviweb-" + containerID;
 
 		// Code will be refactored later
 		String connectionString = "DefaultEndpointsProtocol=https;"
@@ -44,22 +48,10 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 			long bodyLength = request.getBody().get().length;
 			String contentLength = request.getHeaders().get("content-length");
 			InputStream inputStream = new ByteArrayInputStream(request.getBody().get());
-		/*	CloudStorageAccount storageAccount;
 
-			storageAccount = CloudStorageAccount.parse(connectionString);
-			CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
-			
-			CloudBlobContainer blobContainer = blobClient.getContainerReference("kaviweb-1"); // TODO  kaviweb-<id>
-
-			CloudBlockBlob blob = blobContainer.getBlockBlobReference("test.md");
-
-			
-			blob.upload(inputStream, bodyLength);
-
-	*/
-		
-			BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
-			BlobContainerClient containerClient = blobServiceClient.createBlobContainer("kaviweb-1");
+			BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString)
+					.buildClient();
+			BlobContainerClient containerClient = blobServiceClient.createBlobContainer(containerName);
 
 			BlobClient blob = containerClient.getBlobClient("full.md");
 			blob.upload(inputStream, bodyLength, true);
@@ -67,7 +59,8 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 			return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body(ex.getMessage()).build();
 		}
 
-		return request.createResponseBuilder(HttpStatus.OK).body("File uploaded successfully").build();
+		return request.createResponseBuilder(HttpStatus.OK)
+				.body("File uploaded successfully in container " + containerName).build();
 
 	}
 
