@@ -8,10 +8,10 @@ public class ItemFileDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private MultipartFile file;
+	private byte[] file;
 	
 	
-	public ItemFileDto(Integer id, MultipartFile file) {
+	public ItemFileDto(Integer id, byte[] file) {
 		this.id = id;
 		this.file = file;
 	}
@@ -27,12 +27,12 @@ public class ItemFileDto implements Serializable {
 	}
 
 
-	public MultipartFile getFile() {
+	public byte[] getFile() {
 		return file;
 	}
 
 
-	public void setFile(MultipartFile file) {
+	public void setFile(byte[] file) {
 		this.file = file;
 	}
 

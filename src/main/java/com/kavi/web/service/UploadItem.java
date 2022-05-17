@@ -19,9 +19,11 @@ public class UploadItem implements Function<ItemFileDto, ResponseStatus> {
 
 	public ResponseStatus apply(ItemFileDto data) {
 
-		System.out.println( " Item id is > "+data.getId());
-		System.out.println("File name is > "+ data.getFile().getOriginalFilename());
-		System.out.println("File size > "+data.getFile().getSize());
+		/*
+		 * System.out.println( " Item id is > "+data.getId());
+		 * System.out.println("File name is > "+ data.getFile().getOriginalFilename());
+		 * System.out.println("File size > "+data.getFile().getSize());
+		 */
 		return new ResponseStatus("Test file upload", "Success");
 	}
 

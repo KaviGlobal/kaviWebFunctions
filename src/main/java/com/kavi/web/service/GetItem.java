@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kavi.web.entity.Item;
+import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ResponseStatus;
 import com.kavi.web.repo.ItemRepository;
 
 /**
@@ -17,18 +19,20 @@ import com.kavi.web.repo.ItemRepository;
  *
  */
 @Component
-public class GetItem implements Function<Integer, Item> {
+public class GetItem implements Function<Integer, ItemDto> {
 
 	@Autowired
 	private ItemRepository itemRepo;
 
-	public Item apply(Integer itemId) {
-		Item result = null;
+	public ItemDto apply(Integer itemId) {
+		ItemDto result = null;
 
 		Optional<Item> item = itemRepo.findById(itemId);
-		if (item.isPresent())
-			result = item.get();
-
+		if (item.isPresent()) {
+			Item itemData = item.get();
+			result = new ItemDto(itemData.getId(), itemData.getTitle(), itemData.getTypeId(), null, itemData.getCreatedBy());
+		}
+			
 		return result;
 	}
 

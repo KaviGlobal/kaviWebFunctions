@@ -3,14 +3,20 @@ package com.kavi.web.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import com.kavi.web.model.ItemDto;
 
+@Entity
 public class Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String title;
 	private String typeId;
@@ -57,6 +63,10 @@ public class Item implements Serializable {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	
+
+	public Item() {
 	}
 
 	public Item(ItemDto item) {
