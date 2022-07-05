@@ -1,7 +1,8 @@
 package com.kavi.web.repo;
 
 import java.util.List;
-import static com.kavi.web.utils.QueryConstants.GET_ITEM_BY_TAG_ID;
+import static com.kavi.web.utils.QueryConstants.GET_ITEMS_BY_TAG_ID;
+import static com.kavi.web.utils.QueryConstants.GET_ITEMS_BY_ITEM_TYPE;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -14,11 +15,16 @@ import com.kavi.web.entity.Item;
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Integer> {
 
-	Optional<Item> findById(Integer id);
+	public Optional<Item> findById(Integer id);
 
-	List<Item> findByTitle(String title);
+	public List<Item> findByTitle(String title);
 
-	@Query(value = GET_ITEM_BY_TAG_ID , nativeQuery = true)
-	List<Item> findByTagId(@Param("tagId") String tagId);
+	@Query(value = GET_ITEMS_BY_TAG_ID , nativeQuery = true)
+	public List<Item> findByTagId(@Param("tagId") String tagId);
+	
+	@Query(value = GET_ITEMS_BY_ITEM_TYPE, nativeQuery = true )
+	public List<Item> findByItemTypes(@Param("itemTypes") List<String> itemTypes);
+	
+	
 
 }

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 			// here the "content-type" must be lower-case
 			String body = request.getBody().get(); // Get request body
 
-			InputStream in = new ByteArrayInputStream(body.getBytes()); // Convert body to an input stream
+			InputStream in = new ByteArrayInputStream(body.getBytes("UTF-8")); // Convert body to an input stream
 			String boundary = contentType.split(";")[1].split("=")[1]; // Get boundary from content-type header
 			int bufSize = 1024;
 			// Using MultipartStream to parse body input stream
@@ -73,8 +74,13 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 				blobServiceClient.createBlobContainer(containerName);
 
 			// create file inside the folder having the ID name
-			BlobClient blob = containerClient.getBlobClient(id + "/" + filename);
-			blob.upload(new ByteArrayInputStream(baos.toByteArray()), baos.size(), true);
+			BlobClient fullBlob = containerClient.getBlobClient(id + "/" + filename);
+			fullBlob.upload(new ByteArrayInputStream(baos.toByteArray()), baos.size(), true);
+			// create the preview file
+			String previewStr = this.getPreviewFileData(baos.toString());
+			BlobClient previewBlob = containerClient.getBlobClient(id + "/preview.md");
+			previewBlob.upload(new ByteArrayInputStream(previewStr.getBytes("UTF-8")),previewStr.length(), true);
+			
 
 		} catch (Exception ex) {
 			return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body(ex.getMessage()).build();
@@ -82,6 +88,15 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 
 		return request.createResponseBuilder(HttpStatus.OK).body("File uploaded successfully ").build();
 
+	}
+	
+	private String getPreviewFileData(String data) {
+		
+		int start = data.indexOf("###");
+		StringBuilder preview = new StringBuilder();
+		preview =  preview.append(data.substring(start, start+600));
+		int start1 = preview.indexOf("\n");
+		return preview.substring(start1+3, start1+352);
 	}
 
 }
