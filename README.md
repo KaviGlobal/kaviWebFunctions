@@ -1,7 +1,17 @@
 # kaviWebFunctions
 Spring boot cloud project for azure functions
 
+
+Azure authentication:
+go to command prompt:
+
+az login
+
+
 Maven functions for development:-
+
+to deploy:
+mvn install
 
 1) Run azure function in local environment    
     mvn azure-functions:run
