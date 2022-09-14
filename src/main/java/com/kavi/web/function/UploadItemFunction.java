@@ -5,18 +5,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
+import org.springframework.stereotype.Component;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
-import com.kavi.web.entity.Item;
-import com.kavi.web.model.ItemFileDto;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -26,7 +27,8 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
-public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
+public class UploadItemFunction extends FunctionInvoker{
+
 
 	@FunctionName("uploadItem")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {
@@ -36,7 +38,7 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 		context.getLogger().info("Java HTTP file upload started with headers " + request.getHeaders());
 		Map<String, String> queryParam = request.getQueryParameters();
 		final String id = queryParam.get("id");
-		final String containerName = "item";
+		final String containerName = "kaviwebsiteobjects";
 		String filename = null;
 
 		// Code will be refactored later
@@ -74,19 +76,24 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 				blobServiceClient.createBlobContainer(containerName);
 
 			// create file inside the folder having the ID name
-			BlobClient fullBlob = containerClient.getBlobClient(id + "/" + filename);
+			BlobClient fullBlob = containerClient.getBlobClient("item/"+id + "/" + filename);
 			fullBlob.upload(new ByteArrayInputStream(baos.toByteArray()), baos.size(), true);
 			// create the preview file
 			String previewStr = this.getPreviewFileData(baos.toString());
-			BlobClient previewBlob = containerClient.getBlobClient(id + "/preview.md");
+			BlobClient previewBlob = containerClient.getBlobClient("item/"+id + "/preview.md");
 			previewBlob.upload(new ByteArrayInputStream(previewStr.getBytes("UTF-8")),previewStr.length(), true);
-			
+
+           String item = handleRequest(id, context).toString();
+
+            containerClient = blobServiceClient.getBlobContainerClient(containerName);
+			BlobClient metadataBlob = containerClient.getBlobClient("item/"+id+ "/metadata.json");
+			metadataBlob.upload(new ByteArrayInputStream(item.getBytes("UTF-8")),item.length(), true);
 
 		} catch (Exception ex) {
 			return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body(ex.getMessage()).build();
 		}
 
-		return request.createResponseBuilder(HttpStatus.OK).body("File uploaded successfully ").build();
+		return request.createResponseBuilder(HttpStatus.OK).body("file uploaded successfully").build();
 
 	}
 	
@@ -98,5 +105,19 @@ public class UploadItemFunction extends FunctionInvoker<ItemFileDto, Item> {
 		int start1 = preview.indexOf("\n");
 		return preview.substring(start1+3, start1+352);
 	}
+
+	
+	/*private ItemDto saveMetadata(Item item) {		
+		//String result= null;
+		int itemId = Integer.valueOf(id);
+
+
+			Optional<Item> item  = itemRepo.findById(itemId);
+			if(item.isPresent()){
+				result = item.get();
+			}
+		
+		return dto;
+	}*/
 
 }

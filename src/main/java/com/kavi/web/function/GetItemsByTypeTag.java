@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
 
-import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.kavi.web.model.ItemTypeTagRequest;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
@@ -18,7 +18,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
-public class GetItemsByTypeTag extends FunctionInvoker<ItemTypeTagRequest, List<ItemDto>> {
+public class GetItemsByTypeTag extends FunctionInvoker<ItemTypeTagRequest, List<ItemTagDto>> {
 
 	@FunctionName("getItemsByTypeTag")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {

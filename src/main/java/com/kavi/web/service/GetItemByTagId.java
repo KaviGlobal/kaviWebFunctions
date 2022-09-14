@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kavi.web.entity.Item;
-import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.kavi.web.repo.ItemRepository;
 
 /**
@@ -19,20 +19,20 @@ import com.kavi.web.repo.ItemRepository;
  *
  */
 @Component
-public class GetItemByTagId implements Function<String, List<ItemDto>> {
+public class GetItemByTagId implements Function<String, List<ItemTagDto>> {
 
 	@Autowired
 	private ItemRepository itemRepo;
 
 	@Override
-	public List<ItemDto> apply(String tagId) {
+	public List<ItemTagDto> apply(String tagId) {
 
-		List<ItemDto> result = new ArrayList();
+		List<ItemTagDto> result = new ArrayList();
 
 		List<Item> items = itemRepo.findByTagId(tagId);
 		for (Item item : items) {
 
-			result.add(new ItemDto(item.getId(), item.getTitle(), item.getTypeId(), null, item.getCreatedBy()));
+			result.add(new ItemTagDto(item.getId(), item.getTitle(), item.getTypeId(), null, item.getCreatedBy()));
 		}
 
 		return result;

@@ -9,15 +9,13 @@ public class ItemDto implements Serializable {
 	private Integer id;
 	private String title;
 	private String typeId;
-	private List<String> tagIds;
 	private String createdBy;
 
-	public ItemDto(Integer id, String title, String typeId, List<String> tagIds, String createdBy) {
+	public ItemDto(Integer id, String title, String typeId, String createdBy) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.typeId = typeId;
-		this.tagIds = tagIds;
 		this.createdBy = createdBy;
 	}
 
@@ -45,14 +43,6 @@ public class ItemDto implements Serializable {
 		this.typeId = typeId;
 	}
 
-	public List<String> getTagIds() {
-		return tagIds;
-	}
-
-	public void setTagIds(List<String> tagIds) {
-		this.tagIds = tagIds;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -67,7 +57,7 @@ public class ItemDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemDto [id=" + id + ", title=" + title + ", typeId=" + typeId + ", tagIds=" + tagIds + ", createdBy="
+		return "ItemDto [id=" + id + ", title=" + title + ", typeId=" + typeId + ", createdBy="
 				+ createdBy + "]";
 	}
 

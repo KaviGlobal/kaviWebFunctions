@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kavi.web.entity.Item;
-import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.kavi.web.model.ItemTypeTagRequest;
 import com.kavi.web.repo.ItemRepository;
 
@@ -20,14 +20,14 @@ import com.kavi.web.repo.ItemRepository;
  *
  */
 @Component
-public class GetItemsByTypeTag implements Function<ItemTypeTagRequest, List<ItemDto>> {
+public class GetItemsByTypeTag implements Function<ItemTypeTagRequest, List<ItemTagDto>> {
 
 	@Autowired
 	private ItemRepository itemRepo;
 
-	public List<ItemDto> apply(ItemTypeTagRequest request) {
+	public List<ItemTagDto> apply(ItemTypeTagRequest request) {
 
-		List<ItemDto> result = new ArrayList();
+		List<ItemTagDto> result = new ArrayList();
 
 		List<String> tagIds = request.getTagIds();
 		List<String> itemTypes = request.getItemTypes();

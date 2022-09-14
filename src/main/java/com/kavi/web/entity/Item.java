@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 
 @Entity
 public class Item implements Serializable {
@@ -21,7 +22,6 @@ public class Item implements Serializable {
 	private String title;
 	private String typeId;
 	private LocalDateTime createdAt;
-
 	private String createdBy;
 
 	
@@ -78,7 +78,7 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", title=" + title + ", typeId=" + typeId + ", createdBy=" + createdBy + "]";
+		return "Item [id=" + id + ", title=" + title + ", typeId=" + typeId + ", createdBy=" + createdBy + ", createdAt ="+createdAt+"]";
 	}
 
 	public static long getSerialversionuid() {

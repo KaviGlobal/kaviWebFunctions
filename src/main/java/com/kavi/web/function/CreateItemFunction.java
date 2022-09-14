@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
 
 import com.kavi.web.entity.Item;
-import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -15,16 +15,16 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
-public class CreateItemFunction extends FunctionInvoker<ItemDto, Item> {
+public class CreateItemFunction extends FunctionInvoker<ItemTagDto, Item> {
 
 	@FunctionName("saveItem")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {
-			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<ItemDto>> request,
+			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<ItemTagDto>> request,
 			final ExecutionContext context) {
 
 		context.getLogger().info("Request body is: " + request.getBody().orElse(null));
 
-		ItemDto item = request.getBody().get();
+		ItemTagDto item = request.getBody().get();
 
 		// handleRequest(item,context);
 

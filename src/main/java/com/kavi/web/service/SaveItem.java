@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.kavi.web.entity.Item;
 import com.kavi.web.entity.ItemTag;
 import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.kavi.web.model.ResponseStatus;
 import com.kavi.web.repo.ItemRepository;
 import com.kavi.web.repo.ItemTagRepository;
@@ -47,7 +48,7 @@ public class SaveItem implements Function<ItemDto, ResponseStatus> {
 		Item result = itemRepo.save(item);
 
 		// create item tag mapping
-		itemTagRepo.saveAll(this.getItemTagMappings(result.getId(), itemDto.getTagIds()));
+		//itemTagRepo.saveAll(this.getItemTagMappings(result.getId(), itemDto.getTagIds()));
 
 		return result;
 

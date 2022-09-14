@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.kavi.web.entity.Item;
 import com.kavi.web.model.ItemDto;
+import com.kavi.web.model.ItemTagDto;
 import com.kavi.web.model.ResponseStatus;
 import com.kavi.web.repo.ItemRepository;
 
@@ -30,7 +31,7 @@ public class GetItem implements Function<Integer, ItemDto> {
 		Optional<Item> item = itemRepo.findById(itemId);
 		if (item.isPresent()) {
 			Item itemData = item.get();
-			result = new ItemDto(itemData.getId(), itemData.getTitle(), itemData.getTypeId(), null, itemData.getCreatedBy());
+			result = new ItemDto(itemData.getId(), itemData.getTitle(), itemData.getTypeId(), itemData.getCreatedBy());
 		}
 			
 		return result;
