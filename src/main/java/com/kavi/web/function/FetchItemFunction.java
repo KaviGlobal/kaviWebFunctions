@@ -26,7 +26,7 @@ public class FetchItemFunction extends FunctionInvoker<Integer, ItemTagDto> {
 
 	@FunctionName("getItem")
 	public HttpResponseMessage execute(@HttpTrigger(name = "req", methods = {
-			HttpMethod.GET }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<Integer>> request,
+			HttpMethod.GET }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 			final ExecutionContext context) throws IOException {
 
 		 // Parse query parameter

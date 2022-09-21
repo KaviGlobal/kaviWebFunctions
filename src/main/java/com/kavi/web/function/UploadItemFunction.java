@@ -106,18 +106,4 @@ public class UploadItemFunction extends FunctionInvoker{
 		return preview.substring(start1+3, start1+352);
 	}
 
-	
-	/*private ItemDto saveMetadata(Item item) {		
-		//String result= null;
-		int itemId = Integer.valueOf(id);
-
-
-			Optional<Item> item  = itemRepo.findById(itemId);
-			if(item.isPresent()){
-				result = item.get();
-			}
-		
-		return dto;
-	}*/
-
 }

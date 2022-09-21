@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.kavi.web.model.ItemDto;
-import com.kavi.web.model.ItemTagDto;
 
 @Entity
 public class Item implements Serializable {
@@ -70,6 +69,7 @@ public class Item implements Serializable {
 	}
 
 	public Item(ItemDto item) {
+		this.id = item.getId();
 		this.title = item.getTitle();
 		this.typeId = item.getTypeId();
 		this.createdAt = LocalDateTime.now() ;
